@@ -6,11 +6,12 @@ router.get("/", (req, res, next) => {
 });
 
 const moviesRouter = require("./movies");
-
 router.use("/movies", moviesRouter);
 
 const authRouter = require("./auth");
-
 router.use("/auth", authRouter);
+
+const profileRouter = require("./profile");
+router.use("/profile", profileRouter);
 
 module.exports = router;

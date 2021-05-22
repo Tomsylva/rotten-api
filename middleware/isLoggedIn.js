@@ -6,10 +6,13 @@ module.exports = (req, res, next) => {
     // return an error. In the backend did res.redirect
     return res.status(401).json({ errorMessage: "Go Home. You're Drunk" });
   }
-  Session.findById(accessToken).then((theSession) => {
-    if (!theSession) {
-      return res.status(401).json({ errorMessage: "Go Home. You're Drunk" });
-    }
-    next();
-  });
+  Session.findById(accessToken)
+    .populate("user")
+    .then((theSession) => {
+      if (!theSession) {
+        return res.status(401).json({ errorMessage: "Go Home. You're Drunk" });
+      }
+      req.user = theSession.user;
+      next();
+    });
 };
